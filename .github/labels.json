@@ -1,0 +1,132 @@
+[
+  {
+    "name": "good first issue",
+    "color": "#7057ff",
+    "description": "a good issue for first-time contributors"
+  },
+  {
+    "name": "help wanted",
+    "color": "#008672",
+    "description": "maintainer wants help on an issue or pull request"
+  },
+  {
+    "name": "invalid",
+    "color": "#000000",
+    "description": "issue or pull request is no longer relevant"
+  },
+  {
+    "name": "priority:critical",
+    "color": "#e11d21",
+    "description": "critical priority issue or pull request"
+  },
+  {
+    "name": "priority:high",
+    "color": "#eb6420",
+    "description": "high priority issue or pull request"
+  },
+  {
+    "name": "priority:low",
+    "color": "#009800",
+    "description": "low priority issue or pull request"
+  },
+  {
+    "name": "priority:medium",
+    "color": "#fbca04",
+    "description": "medium priority issue or pull request"
+  },
+  {
+    "name": "status:abandoned",
+    "color": "#000000",
+    "description": "issue or pull request abandoned by author"
+  },
+  {
+    "name": "status:accepted",
+    "color": "#009800",
+    "description": "issue or pull request accepted by maintainer"
+  },
+  {
+    "name": "status:available",
+    "color": "#bfe5bf",
+    "description": "task available for assignment"
+  },
+  {
+    "name": "status:blocked",
+    "color": "#e11d21",
+    "description": "issue or pull request is blocked by something"
+  },
+  {
+    "name": "status:completed",
+    "color": "#006b75",
+    "description": "task is complete"
+  },
+  {
+    "name": "status:in_progress",
+    "color": "#cccccc",
+    "description": "task is actively being worked on"
+  },
+  {
+    "name": "status:on_hold",
+    "color": "#e11d21",
+    "description": "task was recently worked on but is now on hold"
+  },
+  {
+    "name": "status:pending",
+    "color": "#fef2c0",
+    "description": "task is pending review or completion of something else"
+  },
+  {
+    "name": "status:review_needed",
+    "color": "#fbca04",
+    "description": "issue or pull request needs reviewed"
+  },
+  {
+    "name": "status:revision_needed",
+    "color": "#e11d21",
+    "description": "issue or pull request needs to be revised by author"
+  },
+  {
+    "name": "bug",
+    "color": "#d73a4a",
+    "description": "unexpected problem or unintended behavior"
+  },
+  {
+    "name": "documentation",
+    "color": "#0075ca",
+    "description": "improvements or additions to documentation"
+  },
+  {
+    "name": "duplicate",
+    "color": "#cfd3d7",
+    "description": "similar issues or pull requests"
+  },
+  {
+    "name": "feature",
+    "color": "#84b6eb",
+    "description": "request or pull request for a new feature"
+  },
+  {
+    "name": "maintenance",
+    "color": "#fbca04",
+    "description": "general repo or CI/CD upkeep"
+  },
+  {
+    "name": "question",
+    "color": "#cc317c",
+    "description": "issue or pull request needs more information"
+  },
+  {
+    "name": "wontfix",
+    "color": "#ffffff",
+    "description": "work won't continue on an issue or pull request"
+  },
+  {
+    "name": "release",
+    "color": "#e4e669",
+    "description": "a release task or pull request"
+  },
+  {
+    "name": "skip-changelog",
+    "color": "#ffffff",
+    "description": "don't include this pull request in the release changelog"
+  }
+]

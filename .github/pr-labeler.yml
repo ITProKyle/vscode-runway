@@ -1,0 +1,20 @@
+# https://github.com/TimonVS/pr-labeler-action
+bug:
+  - 'fix/*'
+  - 'bugfix/*'
+  - 'hotfix/*'
+documentation:
+  - 'documentation/*'
+  - 'docs/*'
+  - 'doc/*'
+feature:
+  - 'feature/*'
+  - 'feat/*'
+  - 'enhancement/*'
+maintenance:
+  - 'chore/*'
+  - 'maintenance/*'
+  - 'maintain/*'
+  - 'maint/*'
+release:
+  - 'release/*'
