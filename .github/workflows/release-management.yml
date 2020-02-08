@@ -15,4 +15,4 @@ jobs:
         env:
           # using a PAT here will allow releases to trigger a build/release
           # but for this example, we're just using the actions token
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.github_pat }}
