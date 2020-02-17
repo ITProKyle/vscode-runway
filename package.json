@@ -19,16 +19,8 @@
 		"vscode": "^1.42.0"
 	},
 	"categories": [
-		"Snippets"
+		"Linters"
 	],
-	"contributes": {
-		"snippets": [
-			{
-				"language": "yaml",
-				"path": "./snippets/runway.snippets.json"
-			}
-		]
-	},
 	"extensionDependencies": [
 		"redhat.vscode-yaml"
 	],
