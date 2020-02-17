@@ -4,4 +4,10 @@ node_modules
 out
 vsc-extension-quickstart.md
 runway/
-.vscode
+
+# test files
+**/runway.yaml
+**/runway.yml
+
+# vscode extension artifact
+**/*.vsix
