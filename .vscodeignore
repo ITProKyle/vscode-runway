@@ -1,3 +1,4 @@
+.github/**
 .vscode/**
 .vscode-test/**
 out/test/**
@@ -8,3 +9,13 @@ vsc-extension-quickstart.md
 **/.eslintrc.json
 **/*.map
 **/*.ts
+
+# test files
+**/runway.yaml
+**/runway.yml
+
+# vscode extension artifact
+**/*.vsix
+
+# assets/image for docs
+assets/**
