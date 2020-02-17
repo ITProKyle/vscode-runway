@@ -1,26 +1,32 @@
 {
-	"author": {
-		"name": "Kyle Finley"
-	},
 	"name": "vscode-runway",
 	"displayName": "Runway",
 	"description": "Visual Studio Code extension for Runway",
-	"version": "0.0.0",
+	"author": {
+		"name": "Kyle Finley"
+	},
+	"license": "Apache-2.0",
+	"version": "0.1.0",
 	"publisher": "itprokyle",
+	"preview": true,
+	"homepage": "https://github.com/ITProKyle/vscode-runway",
+	"bugs": {
+		"url": "https://github.com/ITProKyle/vscode-runway/issues"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ITProKyle/vscode-runway"
 	},
-	"activationEvents": [
-    "onLanguage:yaml"
-	],
-	"main": "./out/extension",
 	"engines": {
 		"vscode": "^1.42.0"
 	},
 	"categories": [
 		"Linters"
 	],
+	"activationEvents": [
+    "onLanguage:yaml"
+	],
+	"main": "./out/extension",
 	"extensionDependencies": [
 		"redhat.vscode-yaml"
 	],
