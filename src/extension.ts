@@ -11,22 +11,18 @@ import {
 } from "./yaml-support/yaml-constant";
 import {
   addSchemaToConfigAtScope,
-  registerYamlSchemaSupport
+  registerYamlSchemaSupport,
+  removeSchemaFromConfigAtScope
 } from "./yaml-support/yaml-schema";
 
-export const output = window.createOutputChannel("vscode-runway");
+export const output = window.createOutputChannel("Runway");
 export let extensionPath: string;
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-export async function activate(context: ExtensionContext) {
-  extensionPath = context.extensionPath;
-  await addSchemasToConfig();
-  await registerYamlSchemaSupport();
-}
-
+/**
+ * Add YAML schema to vscode config.
+ *
+ */
 async function addSchemasToConfig() {
-  console.log('vscode-runway: adding schemas');
   const config = workspace
     .getConfiguration()
     .inspect(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION);
@@ -38,6 +34,35 @@ async function addSchemasToConfig() {
   );
 }
 
-export function deactivate() {
-  // this method is called when your extension is deactivated
+async function removeSchemaFromConfig() {
+  const config = workspace
+    .getConfiguration()
+    .inspect(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION)
+  await removeSchemaFromConfigAtScope(
+    RUNWAY_SCHEMA_FILE,
+    ConfigurationTarget.Global,
+    config.globalValue
+  )
+}
+
+/**
+ * Called when the extension is activated.
+ *
+ * @export
+ * @param {ExtensionContext} context
+ */
+export async function activate(context: ExtensionContext) {
+  extensionPath = context.extensionPath;
+  await addSchemasToConfig();
+  await registerYamlSchemaSupport();
+}
+
+/**
+ * Called when the extension is deactivated.
+ *
+ * @export
+ */
+export async function deactivate() {
+  await removeSchemaFromConfig();
+  return undefined;
 }

@@ -25,7 +25,11 @@ export async function registerYamlSchemaSupport(): Promise<void> {
   await activateYamlExtension();
 }
 
-// Find redhat.vscode-yaml extension and try to activate it to get the yaml contributor
+/**
+ * Find redhat.vscode-yaml extension and try to activate it to get the yaml contributor.
+ *
+ * @returns {Promise<{registerContributor: YamlSchemaContributor}>}
+ */
 async function activateYamlExtension(): Promise<{registerContributor: YamlSchemaContributor}> {
   const ext: Extension<any> | undefined = extensions.getExtension(VSCODE_YAML_EXTENSION_ID);
   if (!ext) {
@@ -43,9 +47,20 @@ async function activateYamlExtension(): Promise<{registerContributor: YamlSchema
     );
     return;  // TODO improve error handling
   }
+  console.log('Activated YAML extension');
   return yamlPlugin;
 }
 
+
+/**
+ * Add a new schema to vscode config for redhat.vscode-yaml extension.
+ *
+ * @export
+ * @param {string} key - Config key
+ * @param {(string | Array<string>)} value - New value for the config key
+ * @param {ConfigurationTarget} scope - Config scope to update
+ * @param {*} valueAtScope - Current value from config file
+ */
 export async function addSchemaToConfigAtScope(
   key: string,
   value: string | Array<string>,
@@ -63,6 +78,36 @@ export async function addSchemaToConfigAtScope(
     }
   });
   newValue[key] = value;
+  console.log(`Adding YAML schema "${key}" for "${value}"...`);
+  await workspace
+    .getConfiguration()
+    .update(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION, newValue, scope);
+}
+
+
+/**
+ * Add a schema from vscode config for redhat.vscode-yaml extension.
+ *
+ * @export
+ * @param {string} key - Config key
+ * @param {ConfigurationTarget} scope - Config scope to update
+ * @param {*} valueAtScope - Current value from config file
+ */
+export async function removeSchemaFromConfigAtScope(
+  key: string,
+  scope: ConfigurationTarget,
+  valueAtScope: any
+) {
+  let newValue: any = {};
+  if (valueAtScope) {
+    newValue = Object.assign({}, valueAtScope)
+  }
+  Object.keys(newValue).forEach(configKey => {
+    if (key === configKey) {
+      delete newValue[key];
+    }
+  });
+  console.log(`Removing YAML schema "${key}"...`);
   await workspace
     .getConfiguration()
     .update(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION, newValue, scope);
