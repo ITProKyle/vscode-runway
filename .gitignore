@@ -3,8 +3,11 @@ node_modules
 # exclude the generated files for now
 out
 vsc-extension-quickstart.md
-.eslintrc.json
 runway/
-src/
-tsconfig.json
-.vscode
+
+# test files
+**/runway.yaml
+**/runway.yml
+
+# vscode extension artifact
+**/*.vsix

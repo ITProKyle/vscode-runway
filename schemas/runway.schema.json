@@ -1,0 +1,371 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/ITProKyle/vscode-runway/blob/master/schema/runway.schema.json",
+  "title": "Runway Config File",
+  "description": "Schema for a Runway Config file (runway.yaml | runway.yml)",
+  "type": "object",
+  "properties": {
+    "deployments": {
+      "description": "A list of Runway deployment definitions.\nhttps://docs.onica.com/projects/runway/en/release/runway_config.html#deployment",
+      "type": "array",
+      "items": {
+        "description": "Defines a deployment that will be processed by Runway.\nhttps://docs.onica.com/projects/runway/en/release/runway_config.html#deployment",
+        "type": "object",
+        "properties": {
+          "account_alias": {
+            "description": "Mapping of {<environment>: <alias>}.\nUsed to verify the currently assumed role or credentials.",
+            "oneOf": [
+              {
+                "description": "Lookup that must resolve to a mapping of {<environment>: <alias>}.\nUsed to verify the currently assumed role or credentials.",
+                "type": "string"
+              },
+              {
+                "description": "Mapping of {<environment>: <alias>}.\nUsed to verify the currently assumed role or credentials.",
+                "type": "object",
+                "patternProperties": {
+                  "^.*$": {
+                    "description": "AWS account alias belonging to an environment.",
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "account_id": {
+            "description": "Mapping of {<environment>: <id>}.\nUsed to verify the currently assumed role or credentials.",
+            "oneOf": [
+              {
+                "description": "Lookup that must resolve to a mapping of {<environment>: <id>}.\nUsed to verify the currently assumed role or credentials.",
+                "type": "string"
+              },
+              {
+                "description": "Mapping of {<environment>: <id>}.\nUsed to verify the currently assumed role or credentials.",
+                "type": "object",
+                "patternProperties": {
+                  "^.*$": {
+                    "description": "AWS account alias belonging to an environment.",
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "assume_role": {
+            "description": "Mapping of {<environment>: <role>} or {<environment>: {arn: <role>, duration: <int>}} to assume a role when processing a deployment.\n  - {arn: <role>} can be used to apply the same role to all environment.\n  - {post_deploy_env_revert: true} can also be provided to revert credentials after processing.",
+            "type": "object",
+            "oneOf": [
+              {
+                "properties": {
+                  "arn": {
+                    "description": "AWS IAM Role ARN that will be assumed.",
+                    "type": "string"
+                  },
+                  "post_deploy_env_revert": {
+                    "description": "Revert credentials after processing.",
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "properties": {
+                  "post_deploy_env_revert": {
+                    "description": "Revert credentials after processing.",
+                    "type": "boolean"
+                  }
+                },
+                "patternProperties": {
+                  "^(?!^arn$).*": {
+                    "description": "AWS IAM Role ARN that will be assumed for an environment.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "arn": {
+                            "description": "AWS IAM Role ARN that will be assumed.",
+                            "type": "string"
+                          },
+                          "duration": {
+                            "description": "Number of seconds the assumed role's credentials will be valid for.",
+                            "type": "integer",
+                            "default": 3600,
+                            "minimum": 0,
+                            "maximum": 43200
+                          },
+                          "additionalProperties": false
+                        },
+                        "required": [
+                          "arn"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "environments": {
+            "description": "Mapping of environment names to a boolean value used to explicitly enable or disable in an environment. This can be used when an environment specific variables file and parameters are not needed to force a module to enable anyway or, explicitly skip a module even if a file or parameters are found.\nThe mapping can also have a string (or list of strings) value of '<ACCOUNT_ID>/<REGION>' to lock an environment to specific regions in a specific accounts. If it matches, it will act as an explicit enable.",
+            "type": "object",
+            "patternProperties": {
+              "^.*$": {
+                  "anyOf": [
+                      {
+                          "description": "Lock the environment to a list of specific '<ACCOUNT_ID>/<REGION>'s.",
+                          "type": "array",
+                          "items": {
+                              "description": "Lock the environment to a specific '<ACCOUNT_ID>/<REGION>'.",
+                              "type": "string"
+                          }
+                      },
+                      {
+                          "description": "Explicitly enable or disable for the environment.",
+                          "type": "boolean"
+                      },
+                      {
+                          "description": "Lock the environment to a specific '<ACCOUNT_ID>/<REGION>'.",
+                          "type": "string"
+                      }
+                  ]
+              }
+          }
+          },
+          "env_vars": {
+            "description": "Mapping of OS environment variable overrides to apply when processing modules in the deployment.\nCan be defined per environment or for all environments by omitting the environment name.",
+            "type": "object",
+            "patternProperties": {
+              "^.*$": {
+                "anyOf": [
+                  {
+                    "description": "Environment variable value.",
+                    "type": "string"
+                  },
+                  {
+                    "description": "Environment variables.",
+                    "type": "object",
+                    "patternProperties": {
+                      "^.*$": {
+                        "description": "Environment variable value.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "modules": {
+            "description": "A list of modules to be processed in the order they are defined.",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "description": "Simple module definition.",
+                  "type": "string"
+                },
+                {
+                  "description": "Advanced module definition.\n  # TODO define schema",
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "module_options": {
+            "description": "Options that are shared among all modules in the deployment.\nhttps://docs.onica.com/projects/runway/en/release/module_configuration/index.html",
+            "type": "object",
+            "patternProperties": {
+              "^.*$": {
+                "oneOf": [
+                  {
+                    "description": "https://docs.onica.com/projects/runway/en/latest/module_configuration/index.html",
+                    "type": "string"
+                  },
+                  {
+                    "description": "https://docs.onica.com/projects/runway/en/latest/module_configuration/index.html",
+                    "type": "object",
+                    "patternProperties": {
+                      "^.*$": {
+                          "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "name": {
+            "description": "Name of the deployment. Used to more easily identify where different deployments begin/end in the logs.",
+            "type": "string"
+          },
+          "regions": {
+            "description": "AWS region names where modules will be processed.\nCan also be define as a mapping with 'parallel' as the key and a list of regions as the value.\nCannot be provided if 'parallel_regions' is provided.",
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "description": "AWS region code.",
+                  "type": "string"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "parallel": {
+                    "description": "List of AWS regions to run in parallel.",
+                    "type": "array",
+                    "items": {
+                      "description": "AWS region code.",
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "parallel_regions": {
+            "description": "List of AWS regions to run in parallel.",
+            "type": "array",
+            "items": {
+              "description": "AWS region code.",
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "parameters": {
+            "description": "Module level parameters that are akin to a CloudFormation parameter in functionality.\nThese can be used to pass variable values to your modules in place of a .env/.tfenv/environment config file.\nThrough the use of Lookups, the value can differ per deploy environment, region, etc.",
+            "type": "object",
+            "patternProperties": {
+              "^.*$": {
+                "description": "Parameter passed to the modules at runtime."
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "modules",
+              "regions"
+            ],
+            "not": {
+              "required": [
+                "parallel_regions"
+              ]
+            }
+          },
+          {
+            "required": [
+              "modules",
+              "parallel_regions"
+            ],
+            "not": {
+              "required": [
+                "regions"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "tests": {
+      "description": "A list of tests Runway will execute with `runway test`.\nhttps://docs.onica.com/projects/runway/en/release/defining_tests.html",
+      "type": "array",
+      "items": {
+        "description": "Runway test definition.",
+        "type": "object",
+        "properties": {
+          "args": {
+            "description": "A mapping of arguments that are specific to each test type.\nhttps://docs.onica.com/projects/runway/en/release/defining_tests.html",
+            "type": "object",
+            "anyOf": [
+              {
+                "properties": {
+                  "commands": {
+                    "description": "Used with 'script' to provide a list of commands to be run. Each command is executed in their own subprocess.",
+                    "type": "array",
+                    "items": {
+                      "description": "Command to be executed.",
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              {
+                "patternProperties": {
+                  "^.*$": {
+                    "description": "Argument specific to the test's type.\nhttps://docs.onica.com/projects/runway/en/stable/defining_tests.html"
+                  }
+                }
+              }
+            ]
+          },
+          "name": {
+            "description": "A short name to describe the test.",
+            "type": "string"
+          },
+          "required": {
+            "description": "If `false`, test failure will return 0 instead of resulting in an error.",
+            "oneOf": [
+              {
+                "type":"boolean"
+              },
+              {
+                "description": "Lookup that must resolve to a boolean value.",
+                "type": "string"
+              }
+            ],
+            "default": true
+          },
+          "type": {
+            "description": "The built-in test type to use.",
+            "type": "string",
+            "default": "script",
+            "enum": [
+              "cfn-lint",
+              "script",
+              "yamllint"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ]
+      }
+    },
+    "variables": {
+      "description": "Explicitly define the path to a YAML file containing variables.\nCan also be used to override values in the file or provide additional variables.",
+      "type": "object",
+      "properties": {
+        "file_path": {
+          "description": "Explicit path to a variables file.\nIf it cannot be found Runway will exit.",
+          "type": "string",
+          "default": "runway.variables.yml"
+        },
+        "sys_path": {
+          "description": "Directory to use as the base of a relative 'file_path'.\nIf not provided, the location of the Runway config file is used.",
+          "type": "string",
+          "default": "./"
+        }
+      },
+      "patternProperties": {
+        "^.*$": {
+            "description": "Additional or override variable."
+        }
+      }
+    }
+  },
+  "required": [
+    "deployments"
+  ]
+}
