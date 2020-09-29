@@ -117,7 +117,7 @@
             ]
         },
         "ValidRunwayModuleTypeValues": {
-            "title": "Runway Module Type",
+            "title": "Module Type",
             "description": "Explicitly define the type of IaC contained within the directory.",
             "enum": [
                 "cdk",
@@ -639,7 +639,7 @@
             "additionalProperties": false
         },
         "ValidRunwayTestTypeValues": {
-            "title": "Runway Test Type",
+            "title": "Test Type",
             "description": "The type of test to run.",
             "enum": [
                 "cfn-lint",
