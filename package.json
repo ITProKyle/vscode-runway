@@ -6,7 +6,7 @@
 		"name": "Kyle Finley"
 	},
 	"license": "Apache-2.0",
-	"version": "0.1.0",
+	"version": "0.2.0-beta.0",
 	"publisher": "itprokyle",
 	"preview": true,
 	"homepage": "https://github.com/ITProKyle/vscode-runway",
@@ -24,21 +24,21 @@
 		"Linters"
 	],
 	"activationEvents": [
-    "onLanguage:yaml"
+		"onLanguage:yaml"
 	],
 	"main": "./out/extension",
 	"extensionDependencies": [
 		"redhat.vscode-yaml"
 	],
 	"scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "npm run compile:ts",
-    "compile:ts": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test:e2e": "npm run compile && node ./node_modules/vscode/bin/test",
-    "test:unit": "jest --no-watchman"
-  },
+		"vscode:prepublish": "npm run compile",
+		"compile": "npm run compile:ts",
+		"compile:ts": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test:e2e": "npm run compile && node ./node_modules/vscode/bin/test",
+		"test:unit": "jest --no-watchman"
+	},
 	"devDependencies": {
 		"@types/jest": "^24.0.23",
 		"@types/js-yaml": "^3.12.1",
