@@ -9,11 +9,7 @@ Visual Studio Code extension for [Runway](https://github.com/onicagroup/runway) 
 ## Features
 
 - `runway.yml`/`runway.yaml` validation and autocompletion
-  - `deployments` definition
-  - `tests` definition
-  - `variables` definition
 - description on hover for key and values
-  - some include links to documentation
 
 ## Usage
 
@@ -28,11 +24,6 @@ This extension modifies the [User Settings](https://code.visualstudio.com/docs/g
 ## Requirements
 
 - [redhat.vscode-yaml](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) extension
-
-## Known Issues
-
-- advanced `modules` definition does not have validation or hover text
-- schema error when supplying `regions` and `parallel_regions` is unclear
 
 ## Release Notes
 
