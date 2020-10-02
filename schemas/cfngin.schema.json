@@ -1,0 +1,571 @@
+{
+    "title": "CFNgin Config File",
+    "description": "Configuration file for Runway's CFNgin.",
+    "type": "object",
+    "properties": {
+        "cfngin_bucket": {
+            "title": "CFNgin Bucket",
+            "description": "Name of an AWS S3 bucket to use for caching CloudFormation templates. Set as an empty string to disable caching.",
+            "type": "string"
+        },
+        "cfngin_bucket_region": {
+            "title": "CFNgin Bucket Region",
+            "description": "AWS Region where the CFNgin Bucket is located. If not provided, the current region is used.",
+            "type": "string"
+        },
+        "cfngin_cache_dir": {
+            "title": "CFNgin Cache Directory",
+            "description": "Path to a local directory that CFNgin will use for local caching.",
+            "default": "/Users/kyle/repos/finley/vscode-runway/.runway/cache",
+            "type": "string",
+            "format": "path"
+        },
+        "log_formats": {
+            "title": "Log Formats",
+            "description": "Customize log message formatting by log level.",
+            "default": {},
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "lookups": {
+            "title": "Lookups",
+            "description": "Mapping of custom lookup names to a python importable path for the class that will be used to resolve the lookups.",
+            "default": {},
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "mappings": {
+            "title": "Mappings",
+            "description": "Mappings that will be appended to all stack templates.",
+            "default": {},
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "object"
+                }
+            }
+        },
+        "namespace": {
+            "title": "Namespace",
+            "description": "The namespace used to prefix stack names to create separation within an AWS account.",
+            "type": "string"
+        },
+        "namespace_delimiter": {
+            "title": "Namespace Delimiter",
+            "description": "Character used to separate the namespace and stack name when the namespace is prepended.",
+            "default": "-",
+            "type": "string"
+        },
+        "package_sources": {
+            "title": "Package Sources",
+            "description": "Map of additional package sources to include when processing this configuration file.",
+            "default": {
+                "git": [],
+                "local": [],
+                "s3": []
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/CfnginPackageSourcesDefinitionModel"
+                }
+            ]
+        },
+        "persistent_graph_key": {
+            "title": "Persistent Graph Key",
+            "description": "Key for an AWS S3 object used to track a graph of stacks between executions.",
+            "type": "string"
+        },
+        "post_build": {
+            "title": "Post Deploy Hooks",
+            "default": [],
+            "anyOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CfnginHookDefinitionModel"
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/CfnginHookDefinitionModel"
+                    }
+                }
+            ]
+        },
+        "post_destroy": {
+            "title": "Pre Destroy Hooks",
+            "default": [],
+            "anyOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CfnginHookDefinitionModel"
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/CfnginHookDefinitionModel"
+                    }
+                }
+            ]
+        },
+        "pre_build": {
+            "title": "Pre Deploy Hooks",
+            "default": [],
+            "anyOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CfnginHookDefinitionModel"
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/CfnginHookDefinitionModel"
+                    }
+                }
+            ]
+        },
+        "pre_destroy": {
+            "title": "Pre Destroy Hooks",
+            "default": [],
+            "anyOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CfnginHookDefinitionModel"
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/CfnginHookDefinitionModel"
+                    }
+                }
+            ]
+        },
+        "service_role": {
+            "title": "Service Role ARN",
+            "description": "Specify an IAM Role for CloudFormation to use.",
+            "type": "string"
+        },
+        "stacks": {
+            "title": "Stacks",
+            "description": "Define CloudFormation stacks using a Blueprint or Template.",
+            "default": [],
+            "anyOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CfnginStackDefinitionModel"
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/CfnginStackDefinitionModel"
+                    }
+                }
+            ]
+        },
+        "sys_path": {
+            "title": "sys.path",
+            "description": "Path to append to $PATH. This is also the root of relative paths.",
+            "type": "string",
+            "format": "path"
+        },
+        "tags": {
+            "title": "Tags",
+            "description": "Tags to try to apply to all resources created from this configuration file.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "targets": {
+            "title": "Targets",
+            "description": "Lightweight grouping of stacks.",
+            "default": [],
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/CfnginTargetDefinitionModel"
+            }
+        },
+        "template_indent": {
+            "title": "Template Indent",
+            "description": "Number of spaces per indentation level to use when rendering/outputting CloudFormation templates.",
+            "default": 4,
+            "type": "integer"
+        }
+    },
+    "required": [
+        "namespace"
+    ],
+    "definitions": {
+        "GitCfnginPackageSourceDefinitionModel": {
+            "title": "CFNgin Git Repository Package Source Definition",
+            "description": "Information about git repositories that should be included in the processing of this configuration file.",
+            "type": "object",
+            "properties": {
+                "branch": {
+                    "title": "Git Branch",
+                    "examples": [
+                        "ENV-dev",
+                        "ENV-prod",
+                        "master"
+                    ],
+                    "type": "string"
+                },
+                "commit": {
+                    "title": "Git Commit Hash",
+                    "type": "string"
+                },
+                "configs": {
+                    "title": "Configs",
+                    "description": "Array of paths relative to the root of the package source for configuration that should be merged into the current configuration file.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "paths": {
+                    "title": "Paths",
+                    "description": "Array of paths relative to the root of the package source to add to $PATH.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tag": {
+                    "title": "Git Tag",
+                    "examples": [
+                        "1.0.0",
+                        "v1.0.0"
+                    ],
+                    "type": "string"
+                },
+                "uri": {
+                    "title": "Git Repository URI",
+                    "examples": [
+                        "git@github.com:onicagroup/runway.git"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "uri"
+            ],
+            "additionalProperties": false
+        },
+        "LocalCfnginPackageSourceDefinitionModel": {
+            "title": "CFNgin Local Package Source Definition",
+            "description": "Information about local directories that should be included in the processing of this configuration file.",
+            "type": "object",
+            "properties": {
+                "configs": {
+                    "title": "Configs",
+                    "description": "Array of paths relative to the root of the package source for configuration that should be merged into the current configuration file.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "paths": {
+                    "title": "Paths",
+                    "description": "Array of paths relative to the root of the package source to add to $PATH.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "source": {
+                    "title": "Source",
+                    "description": "Path relative to the current configuration file that is the root of the local package source.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source"
+            ],
+            "additionalProperties": false
+        },
+        "S3CfnginPackageSourceDefinitionModel": {
+            "title": "CFNgin S3 Package Source Definition",
+            "description": "Information about a AWS S3 objects that should be downloaded, unzipped, and included in the processing of this configuration file.",
+            "type": "object",
+            "properties": {
+                "bucket": {
+                    "title": "AWS S3 Bucket Name",
+                    "type": "string"
+                },
+                "configs": {
+                    "title": "Configs",
+                    "description": "Array of paths relative to the root of the package source for configuration that should be merged into the current configuration file.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "key": {
+                    "title": "AWS S3 Object Key",
+                    "type": "string"
+                },
+                "paths": {
+                    "title": "Paths",
+                    "description": "Array of paths relative to the root of the package source to add to $PATH.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "requester_pays": {
+                    "title": "Requester Pays",
+                    "description": "Confirms that the requester knows that they will be charged for the request.",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "use_latest": {
+                    "title": "Use Latest",
+                    "description": "Update the local copy if the last modified date in AWS S3 changes.",
+                    "default": true,
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "bucket",
+                "key"
+            ],
+            "additionalProperties": false
+        },
+        "CfnginPackageSourcesDefinitionModel": {
+            "title": "CFNgin Package Sources Definition",
+            "description": "Map of additional package sources to include when processing this configuration file.",
+            "type": "object",
+            "properties": {
+                "git": {
+                    "title": "CFNgin Git Repository Package Source Definitions",
+                    "description": "Information about git repositories that should be included in the processing of this configuration file.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GitCfnginPackageSourceDefinitionModel"
+                    }
+                },
+                "local": {
+                    "title": "CFNgin Local Package Source Definitions",
+                    "description": "Information about local directories that should be included in the processing of this configuration file.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LocalCfnginPackageSourceDefinitionModel"
+                    }
+                },
+                "s3": {
+                    "title": "CFNgin S3 Package Source Definitions",
+                    "description": "Information about a AWS S3 objects that should be downloaded, unzipped, and included in the processing of this configuration file.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/S3CfnginPackageSourceDefinitionModel"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "CfnginHookDefinitionModel": {
+            "title": "CFNgin Hook Definition",
+            "description": "Python classes or functions run before or after deploy/destroy actions.",
+            "type": "object",
+            "properties": {
+                "args": {
+                    "title": "Arguments",
+                    "description": "Arguments that will be passed to the hook. (supports lookups)",
+                    "default": {},
+                    "type": "object"
+                },
+                "data_key": {
+                    "title": "Data Key",
+                    "description": "Key to use when storing the returned result of the hook.",
+                    "type": "string"
+                },
+                "enabled": {
+                    "title": "Enabled",
+                    "description": "Whether the hook will be run.",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "path": {
+                    "title": "Path",
+                    "description": "Python importable path to the hook.",
+                    "type": "string"
+                },
+                "required": {
+                    "title": "Required",
+                    "description": "Whether to continue execution if the hook results in an error.",
+                    "default": true,
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false
+        },
+        "CfnginStackDefinitionModel": {
+            "title": "CFNgin Stack Definition",
+            "description": "Define CloudFormation stacks using a Blueprint or Template.",
+            "type": "object",
+            "properties": {
+                "class_path": {
+                    "title": "Blueprint Class Path",
+                    "description": "Python importable path to a blueprint class.",
+                    "type": "string"
+                },
+                "description": {
+                    "title": "Stack Description",
+                    "description": "A description that will be applied to the stack in CloudFormation.",
+                    "type": "string"
+                },
+                "enabled": {
+                    "title": "Enabled",
+                    "description": "Whether the stack will be deployed.",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "in_progress_behavior": {
+                    "title": "Stack In Progress Behavior",
+                    "description": "The action to take when a stack's status is CREATE_IN_PROGRESS or UPDATE_IN_PROGRESS when trying to update it.",
+                    "const": "wait",
+                    "type": "string"
+                },
+                "locked": {
+                    "title": "Locked",
+                    "description": "Whether to limit updating of the stack.",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "name": {
+                    "title": "Stack Name",
+                    "description": "Name of the stack.",
+                    "type": "string"
+                },
+                "profile": {
+                    "title": "Profile",
+                    "type": "string"
+                },
+                "protected": {
+                    "title": "Protected",
+                    "description": "Whether to force all updates to the stack to be performed interactively.",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "region": {
+                    "title": "Region",
+                    "type": "string"
+                },
+                "required_by": {
+                    "title": "Required By",
+                    "description": "Array of stacks (by name) that require this stack.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "requires": {
+                    "title": "Requires",
+                    "description": "Array of stacks (by name) that this stack requires.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "stack_name": {
+                    "title": "Explicit Stack Name",
+                    "description": "Explicit name of the stack (namespace will still be prepended).",
+                    "type": "string"
+                },
+                "stack_policy_path": {
+                    "title": "Stack Policy Path",
+                    "description": "Path to a stack policy document that will be applied to the CloudFormation stack.",
+                    "type": "string",
+                    "format": "path"
+                },
+                "tags": {
+                    "title": "Tags",
+                    "description": "Tags that will be applied to the CloudFormation stack.",
+                    "default": {},
+                    "type": "object"
+                },
+                "template_path": {
+                    "title": "Template Path",
+                    "description": "Path to a JSON or YAML formatted CloudFormation Template.",
+                    "type": "string",
+                    "format": "path"
+                },
+                "termination_protection": {
+                    "title": "Termination Protection",
+                    "description": "Set the value of termination protection on the CloudFormation stack.",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "variables": {
+                    "title": "Variables",
+                    "description": "Parameter values that will be passed to the Blueprint/CloudFormation stack. (supports lookups)",
+                    "default": {},
+                    "type": "object"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        },
+        "CfnginTargetDefinitionModel": {
+            "title": "CFNgin Target",
+            "description": "Lightweight grouping of stacks.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "required_by": {
+                    "title": "Required By",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "requires": {
+                    "title": "Requires",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        }
+    }
+}

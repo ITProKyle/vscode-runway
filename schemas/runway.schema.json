@@ -53,7 +53,7 @@
             "title": "Variables",
             "default": {
                 "file_path": null,
-                "sys_path": "/Users/kyle/repos/runway"
+                "sys_path": "/Users/kyle/repos/finley/vscode-runway"
             },
             "allOf": [
                 {
@@ -673,7 +673,7 @@
                 "required": {
                     "title": "Required",
                     "description": "Whether the test must pass for subsequent tests to be run.",
-                    "default": true,
+                    "default": false,
                     "anyOf": [
                         {
                             "type": "boolean"
@@ -705,7 +705,7 @@
                 "sys_path": {
                     "title": "Sys Path",
                     "description": "Directory to use as the root of a relative 'file_path'. If not provided, the current working directory is used.",
-                    "default": "/Users/kyle/repos/runway",
+                    "default": "/Users/kyle/repos/finley/vscode-runway",
                     "type": "string",
                     "format": "path"
                 }
