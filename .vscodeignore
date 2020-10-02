@@ -14,6 +14,14 @@ vsc-extension-quickstart.md
 **/runway.yaml
 **/runway.yml
 
+# python files
+.venv/**
+poetry.lock
+poetry.toml
+pyproject.toml
+setup.cfg
+vscode_runway.py
+
 # vscode extension artifact
 **/*.vsix
 
