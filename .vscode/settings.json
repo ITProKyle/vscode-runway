@@ -1,20 +1,53 @@
-// Place your settings in this file to overwrite default and user settings.
 {
     "[json]": {
-        "editor.tabSize": 2
+        "editor.tabSize": 4
+    },
+    "[python]": {
+        "editor.detectIndentation": false,
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.rulers": [
+            81,
+            88,
+            98
+        ],
+        "editor.tabSize": 4
     },
     "[typescript]": {
         "editor.tabSize": 2
     },
     "files.exclude": {
-        "out": false // set this to true to hide the "out" folder with the compiled JS files
+        "out": false
     },
+    "files.insertFinalNewline": true,
+    "python.formatting.provider": "black",
+    "python.linting.flake8Args": [
+        "--docstring-convention=all"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": false,
+    "python.linting.pylintArgs": [
+        "--rcfile=pyproject.toml"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
     "search.exclude": {
-        "out": true // set this to false to include "out" folder in search results
+        "out": true
     },
-    // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
     "typescript.tsc.autoDetect": "off",
     "yaml.schemas": {
-        "schemas/runway.schema.json": ["**/runway.yaml", "**/runway.yml"]
-    }
+        "schemas/runway.schema.json": [
+            "**/runway.yaml",
+            "**/runway.yml"
+        ]
+    },
+    "cSpell.words": [
+        "diff'ing",
+        "distributionid",
+        "fset",
+        "kustomization",
+        "redhat",
+        "vsce",
+        "vsix"
+    ]
 }
