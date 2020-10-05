@@ -5,6 +5,8 @@ import {
   workspace
 } from "vscode";
 import {
+  CFNGIN_FILE_GLOBAL_PATTERN,
+  CFNGIN_SCHEMA_FILE,
   RUNWAY_FILE_GLOBAL_PATTERN,
   RUNWAY_SCHEMA_FILE,
   YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION
@@ -23,25 +25,38 @@ export let extensionPath: string;
  *
  */
 async function addSchemasToConfig() {
-  const config = workspace
-    .getConfiguration()
-    .inspect(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION);
+  await addSchemaToConfigAtScope(
+    CFNGIN_SCHEMA_FILE,
+    CFNGIN_FILE_GLOBAL_PATTERN,
+    ConfigurationTarget.Global,
+    workspace.getConfiguration()
+      .inspect(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION)
+      .globalValue
+  );
   await addSchemaToConfigAtScope(
     RUNWAY_SCHEMA_FILE,
     RUNWAY_FILE_GLOBAL_PATTERN,
     ConfigurationTarget.Global,
-    config.globalValue
+    workspace.getConfiguration()
+      .inspect(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION)
+      .globalValue
   );
 }
 
 async function removeSchemaFromConfig() {
-  const config = workspace
-    .getConfiguration()
-    .inspect(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION)
+  await removeSchemaFromConfigAtScope(
+    CFNGIN_SCHEMA_FILE,
+    ConfigurationTarget.Global,
+    workspace.getConfiguration()
+      .inspect(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION)
+      .globalValue
+  )
   await removeSchemaFromConfigAtScope(
     RUNWAY_SCHEMA_FILE,
     ConfigurationTarget.Global,
-    config.globalValue
+    workspace.getConfiguration()
+      .inspect(YAML_SCHEMA_CONFIG_NAME_OF_VSCODE_YAML_EXTENSION)
+      .globalValue
   )
 }
 
