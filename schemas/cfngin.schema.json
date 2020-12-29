@@ -444,7 +444,15 @@
                     "title": "Enabled",
                     "description": "Whether the stack will be deployed.",
                     "default": true,
-                    "type": "boolean"
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "string",
+                            "pattern": "^\\${.*}$"
+                        }
+                    ]
                 },
                 "in_progress_behavior": {
                     "title": "Stack In Progress Behavior",
@@ -456,7 +464,15 @@
                     "title": "Locked",
                     "description": "Whether to limit updating of the stack.",
                     "default": false,
-                    "type": "boolean"
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "string",
+                            "pattern": "^\\${.*}$"
+                        }
+                    ]
                 },
                 "name": {
                     "title": "Stack Name",
@@ -471,7 +487,15 @@
                     "title": "Protected",
                     "description": "Whether to force all updates to the stack to be performed interactively.",
                     "default": false,
-                    "type": "boolean"
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "string",
+                            "pattern": "^\\${.*}$"
+                        }
+                    ]
                 },
                 "region": {
                     "title": "Region",
@@ -522,7 +546,15 @@
                     "title": "Termination Protection",
                     "description": "Set the value of termination protection on the CloudFormation stack.",
                     "default": false,
-                    "type": "boolean"
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "string",
+                            "pattern": "^\\${.*}$"
+                        }
+                    ]
                 },
                 "variables": {
                     "title": "Variables",
@@ -531,9 +563,7 @@
                     "type": "object"
                 }
             },
-            "required": [
-                "name"
-            ],
+            "required": [],
             "additionalProperties": false
         },
         "CfnginTargetDefinitionModel": {
